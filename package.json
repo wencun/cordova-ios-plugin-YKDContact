@@ -1,0 +1,32 @@
+{
+  "name": "com.YHload.HKDContact",
+  "version": "1.0.0",
+  "description": "",
+  "cordova": {
+    "id": "com.YHload.YHContact",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wencun/cordova-ios-plugin-contact.git"
+  },
+  "keywords": [
+    "cordova",
+    "Contact",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "wencun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wencun/cordova-ios-plugin-contact/issues"
+  },
+  "homepage": "https://github.com/wencun/cordova-ios-plugin-contact/blob/master/README.md"
+}
