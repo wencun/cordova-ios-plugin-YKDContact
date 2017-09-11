@@ -7,7 +7,7 @@
 //
 
 #import "HKDContact.h"
-#import <Contacts/Contacts.h>
+#import <ContactsUI/ContactsUI.h>
 
 @interface HKDContact()<CNContactPickerDelegate>
 
@@ -31,14 +31,14 @@
             [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
                 if (error) {
                     NSLog(@"您未开启通讯录权限,请前往设置中心开启 ");
-                    [self getContactInfo:NO];
+//                    [self getContactInfo:NO];
                 }else
                 {
                     NSLog(@"用户给权限了 ");//用户给权限了
                     CNContactPickerViewController * picker = [CNContactPickerViewController new];
                     picker.delegate = self;
                     picker.displayedPropertyKeys = @[CNContactPhoneNumbersKey];//只显示手机号
-                    [self presentViewController: picker  animated:YES completion:nil];
+                    [self.viewController presentViewController: picker  animated:YES completion:nil];
                 }
             }];
         }
@@ -47,13 +47,12 @@
             CNContactPickerViewController * picker = [CNContactPickerViewController new];
             picker.delegate = self;
             picker.displayedPropertyKeys = @[CNContactPhoneNumbersKey];
-            [self presentViewController: picker  animated:YES completion:nil];
+            [self.viewController presentViewController: picker  animated:YES completion:nil];
         }
-        else{
-            @"您未开启通讯录权限,请前往设置中心开启";
-            [self getContactInfo:NO];
-        }
-        
+//        else if(status != CNAuthorizationStatusNotDetermined) {
+//            @"您未开启通讯录权限,请前往设置中心开启";
+//            [self getContactInfo:NO];
+//        }
     }
 }
 
@@ -65,7 +64,7 @@
     NSLog(@"givenName: %@, familyName: %@", contact.givenName, contact.familyName);
     NSString *name = [NSString stringWithFormat:@"%@%@",contact.familyName,contact.givenName];
     if (![contactProperty.value isKindOfClass:[CNPhoneNumber class]]) {
-        [[HNPublicTool shareInstance] showHudErrorMessage:@"请选择11位手机号"];
+//        [[HNPublicTool shareInstance] showHudErrorMessage:@"请选择11位手机号"];
         return;
     }
     CNPhoneNumber *phoneNumber = contactProperty.value;
@@ -73,11 +72,12 @@
     NSCharacterSet *setToRemove = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
     NSString *phoneStr = [[Str componentsSeparatedByCharactersInSet:setToRemove]componentsJoinedByString:@""];
     if (phoneStr.length != 11) {
-        [[HNPublicTool shareInstance] showHudErrorMessage:@"请选择11位手机号"];
+//        [[HNPublicTool shareInstance] showHudErrorMessage:@"请选择11位手机号"];
+        return;
     }
     NSLog(@"-=-=%@",phoneStr);
-    [contactDictionary setObject:name forKey:@"name"];
-    [contactDictionary setObject:phoneStr forKey:@"phone"];
+    [self.contactDictionary setObject:name forKey:@"name"];
+    [self.contactDictionary setObject:phoneStr forKey:@"phone"];
     
     [self getContactInfo:YES];
     
@@ -89,8 +89,8 @@
     if(isGranted){
         dict = _contactDictionary;
     }else{
-        [contactDictionary setObject:@"" forKey:@"name"];
-        [contactDictionary setObject:@"" forKey:@"phone"];
+        [self.contactDictionary setObject:@"" forKey:@"name"];
+        [self.contactDictionary setObject:@"" forKey:@"phone"];
     }
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
     [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
