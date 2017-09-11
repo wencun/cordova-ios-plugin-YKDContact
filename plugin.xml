@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="com.YHload.HKDContact" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>HKDContact</name>
+    <js-module name="HKDContact" src="www/HKDContact.js">
+        <clobbers target="cordova.plugins.HKDContact" />
+    </js-module>
+    
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="HKDContact">
+                <param name="ios-package" value="HKDContact"/>
+            </feature>
+        </config-file>
+        
+        
+        <!-- 引入的.h .m 文件 -->
+        <header-file src="src/ios/HKDContact.h" />
+        <source-file src="src/ios/HKDContact.m"/>
+        
+        <!-- 向系统plist文件添加Key -->
+        <config-file target="*-Info.plist" parent="NSContactsUsageDescription">
+            <string>是否允许此App使用你的通讯录？</string>
+        </config-file>
+    </platform>
+</plugin>
