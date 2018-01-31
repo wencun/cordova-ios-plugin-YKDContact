@@ -41,18 +41,16 @@
                     [self.viewController presentViewController: picker  animated:YES completion:nil];
                 }
             }];
-        }
-        
-        if (status == CNAuthorizationStatusAuthorized) {//有权限时
+        } else if (status == CNAuthorizationStatusAuthorized) {//有权限时
             CNContactPickerViewController * picker = [CNContactPickerViewController new];
             picker.delegate = self;
             picker.displayedPropertyKeys = @[CNContactPhoneNumbersKey];
             [self.viewController presentViewController: picker  animated:YES completion:nil];
+        } else if(status == CNAuthorizationStatusDenied) {
+            
+            [self getContactInfo:NO];
         }
-        //        else if(status != CNAuthorizationStatusNotDetermined) {
-        //            @"您未开启通讯录权限,请前往设置中心开启";
-        //            [self getContactInfo:NO];
-        //        }
+        
     }
 }
 
@@ -77,6 +75,7 @@
     //    NSLog(@"-=-=%@",phoneStr);
     [self.contactDictionary setObject:name forKey:@"name"];
     [self.contactDictionary setObject:phoneStr forKey:@"phone"];
+    [self.contactDictionary setObject:@"1" forKey:@"grant"];
     
     [self getContactInfo:YES];
     
@@ -90,6 +89,8 @@
     }else{
         [self.contactDictionary setObject:@"" forKey:@"name"];
         [self.contactDictionary setObject:@"" forKey:@"phone"];
+        [self.contactDictionary setObject:@"0" forKey:@"grant"];
+        dict = _contactDictionary;
     }
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
     [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
