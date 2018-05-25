@@ -1,25 +1,37 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="com.YHload.HKDContact" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
-    <name>HKDContact</name>
-    <js-module name="HKDContact" src="www/HKDContact.js">
-        <clobbers target="cordova.plugins.HKDContact" />
+<plugin id="cordova-plugin-yhcontact" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>YHContactPlugin</name>
+    <js-module name="YHContactPlugin" src="www/YHContactPlugin.js">
+        <clobbers target="cordova.plugins.YHContactPlugin" />
     </js-module>
     
-    <platform name="ios">
-        <config-file parent="/*" target="config.xml">
-            <feature name="HKDContact">
-                <param name="ios-package" value="HKDContact"/>
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="YHContactPlugin">
+                <param name="android-package" value="com.contact.yhck.YHContactPlugin"/>
             </feature>
         </config-file>
         
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.READ_CONTACTS" />
+        </config-file>
+        <source-file src="src/android/YHContactPlugin.java" target-dir="src/com/contact/yhck"/>
+    </platform>
+    
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="YHContactPlugin">
+                <param name="ios-package" value="YHContactPlugin"/>
+            </feature>
+        </config-file>
         
         <!-- 引入的.h .m 文件 -->
-        <header-file src="src/ios/HKDContact.h" />
-        <source-file src="src/ios/HKDContact.m"/>
+        <header-file src="src/ios/YHContactPlugin.h" />
+        <source-file src="src/ios/YHContactPlugin.m"/>
         
         <!-- 向系统plist文件添加Key -->
         <config-file target="*-Info.plist" parent="NSContactsUsageDescription">
-            <string>是否允许此App使用你的通讯录？</string>
+            <string>我们需要访问您的通讯录，以方便您添加紧急联系人</string>
         </config-file>
     </platform>
 </plugin>
